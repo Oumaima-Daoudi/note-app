@@ -1,25 +1,21 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-note-input',
+  templateUrl: './note-input.component.html',
+  styleUrls: ['./note-input.component.css']
 })
-export class AppComponent {
-  title = 'note-app';
-  allowCreateNote = false;
-
+export class NoteInputComponent {
   note = '';
   affich = '';
   notes = [''];
 
-
   onCreateNote(event: Event){
     this.note = (<HTMLInputElement>event.target).value;
   }
+
   onAffichNote(){
     this.notes.push(this.note);
     this.affich = ''+this.note;
   }
-
 }
