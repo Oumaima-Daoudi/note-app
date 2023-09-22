@@ -10,16 +10,12 @@ export class AppComponent {
   allowCreateNote = false;
 
   note = '';
-  affich = '';
-  notes = [''];
+  notes: string[] = [];
 
-
-  onCreateNote(event: Event){
-    this.note = (<HTMLInputElement>event.target).value;
-  }
   onAffichNote(){
+    this.allowCreateNote = true;
     this.notes.push(this.note);
-    this.affich = ''+this.note;
+    this.note = '';
   }
 
 }

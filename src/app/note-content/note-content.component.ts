@@ -1,21 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonService } from '../shared/common.service'
+
 
 @Component({
   selector: 'app-note-content',
   templateUrl: './note-content.component.html',
   styleUrls: ['./note-content.component.css']
 })
-export class NoteContentComponent {
-  note = '';
-  affich = '';
-  notes = [''];
+export class NoteContentComponent implements OnInit{
+  notes: string[] = [];
+  constructor(private shared : CommonService ){
 
-  onCreateNote(event: Event){
-    this.note = (<HTMLInputElement>event.target).value;
   }
 
-  onAffichNote(){
-    this.notes.push(this.note);
-    this.affich = ''+this.note;
+  ngOnInit(): void {
+    this.notes.push(this.shared.getNote());
   }
+
 }

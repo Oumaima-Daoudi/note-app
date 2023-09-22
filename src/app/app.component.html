@@ -6,9 +6,20 @@
           <h3 class="font-medium text-4xl flex justify-center p-4 text-white">To Do List</h3>
       </div>
       <div class="p-4 rounded-lg shadow-xl m-2 w-[95%]">
-        <app-note-input></app-note-input>
+        <input class="p-4 m-2 text-xl text-gray-400 outline-none w-[100%]"
+               placeholder="type something"
+               type="text"
+               [(ngModel)]="note"
+        />
       </div>
-      <app-note-content *ngFor="let note of notes"></app-note-content>
+      <div *ngIf="allowCreateNote">
+        <div *ngFor="let note of notes" class="flex justify-between items-center">
+          <input type="checkbox" class="accent-gray-500 m-2 w-[20px] h-[20px]"/>
+          <p class="p-4 m-2 shadow-xl text-black text-xl w-[90%]">
+                  {{note}}
+          </p>
+        </div>
+      </div>
       <div class="bg-[#dd4f39] absolute bottom-2 right-2 w-[64px] h-[64px] rounded-full flex justify-center items-center">
             <div class="relative w-[100%] h-[100%]">
               <button
