@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input , EventEmitter} from '@angular/core';
 import { CommonService } from '../shared/common.service'
 
 
@@ -8,13 +8,17 @@ import { CommonService } from '../shared/common.service'
   styleUrls: ['./note-content.component.css']
 })
 export class NoteContentComponent implements OnInit{
-  notes: string[] = [];
-  constructor(private shared : CommonService ){
+
+  //@Input() allowCreateNote: boolean;
+  //@Input() notes: string[];
+  constructor( ){
+
 
   }
 
   ngOnInit(): void {
-    this.notes.push(this.shared.getNote());
+
   }
+
 
 }

@@ -12,10 +12,16 @@ export class AppComponent {
   note = '';
   notes: string[] = [];
 
-  onAffichNote(){
+  onAffichNote() {
     this.allowCreateNote = true;
     this.notes.push(this.note);
     this.note = '';
+  }
+
+  
+   onCreateNote(event: Event){
+    this.note = (<HTMLInputElement>event.target).value;
+    console.log(this.note);
   }
 
 }
