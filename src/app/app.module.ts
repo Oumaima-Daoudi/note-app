@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
+import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 
 
 import {AngularFireModule} from '@angular/fire/compat';
@@ -11,15 +12,13 @@ import {AngularFirestoreModule} from '@angular/fire/compat/firestore';
 
 
 import { AppComponent } from './app.component';
-import { NoteInputComponent } from './note-input/note-input.component';
-import { NoteContentComponent } from './note-content/note-content.component';
+import { TodoComponent } from '../app/todo/todo.component';
 import { environment } from 'src/environments/environment.development';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NoteInputComponent,
-    NoteContentComponent
+    TodoComponent
   ],
   imports: [
     BrowserModule,
@@ -28,7 +27,9 @@ import { environment } from 'src/environments/environment.development';
     MatButtonModule,
     MatIconModule,
     BrowserModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig)
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    DateTimePickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
