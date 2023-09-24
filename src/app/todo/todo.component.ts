@@ -9,6 +9,7 @@ import { CommonService } from '../shared/common.service';
 })
 export class TodoComponent implements OnInit {
   todos: any[]=[];
+  deleteItem = false;
 
 
   constructor(private commonService: CommonService) {
@@ -34,6 +35,14 @@ export class TodoComponent implements OnInit {
     this.commonService.updateTodoStatus(id,newStatus)
   }
 
+  onDeleteItem(id:string, status:boolean){
+    if(status){
+      setTimeout(()=>{this.commonService.deleteTodo(id)
+      },2000);
+    }
+  }
+
+  
   onDelete(id: string){
     this.commonService.deleteTodo(id)
   }

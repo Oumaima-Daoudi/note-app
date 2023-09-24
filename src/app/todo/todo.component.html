@@ -49,6 +49,7 @@
                           : 'fa-regular fa-square'
                       "
                       (click)="onStatusChange(item.id, !item.isDone)"
+                      (click)="onDeleteItem(item.id,!item.isDone)"
                     ></i>
                     <span class="ml-3">{{ item.note }}</span>
                   </div>
