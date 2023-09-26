@@ -5,3 +5,11 @@
   transform: translateY(-50%);
   cursor: pointer;
 }
+
+.edit-icon{
+  position: absolute;
+  top: 50%;
+  right: 35px; /* Adjust the right spacing as needed */
+  transform: translateY(-50%);
+  cursor: pointer;
+}

@@ -15,10 +15,11 @@ export class CommonService implements OnInit {
   ngOnInit(): void {
 
   }
-  addTodo(note: string){
+  addTodo(note: string,  deadline: Date | null = null ){
      this.firestoreCollection.add({
       note,
-      isDone : false
+      isDone : false,
+      deadline: deadline ? deadline.toISOString() : null
      })
   }
 
@@ -29,6 +30,8 @@ export class CommonService implements OnInit {
   deleteTodo(id:string){
     this.firestoreCollection.doc(id).delete()
   }
-
+  updateTodoItem(newNote: string, id: string) {
+    this.firestoreCollection.doc(id).update({note:newNote})
+  }
 
 }

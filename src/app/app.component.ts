@@ -7,21 +7,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'note-app';
-  allowCreateNote = false;
 
-  note = '';
-  notes: string[] = [];
+  constructor() {
 
-  onAffichNote() {
-    this.allowCreateNote = true;
-    this.notes.push(this.note);
-    this.note = '';
+
   }
 
-  
-   onCreateNote(event: Event){
-    this.note = (<HTMLInputElement>event.target).value;
-    console.log(this.note);
-  }
+
+
+
+
 
 }
