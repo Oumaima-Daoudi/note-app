@@ -20,7 +20,7 @@ export class TodoComponent implements OnInit {
   currentMinutes = this.currentDate.getMinutes();
 
 
-  /* currentTime = `${this.currentHours}:${this.currentMinutes < 10 ? '0' : ''}${this.currentMinutes}`; */
+  currentTime = `${this.currentHours}:${this.currentMinutes < 10 ? '0' : ''}${this.currentMinutes}`; 
 
 
 
@@ -30,47 +30,53 @@ export class TodoComponent implements OnInit {
   }
   ngOnInit(): void {
      this.commonService.firestoreCollection.valueChanges({idField: 'id'}).subscribe(item=>{
-       console.log(this.todos);
-       console.log( this.currentDate);
        this.todos = item.sort((a:any, b:any) =>
        { return a.isDone - b.isDone});
-       this.todos.forEach((todo: any) => {
-        const deadline = new Date(todo.deadline); // Convert deadline to a Date object
+       console.log(this.todos);
+       setInterval(() => {
+        this.todos.forEach((todo: any) => {
+          const deadline = new Date(todo.deadline);
+          console.log("deadline");
 
-        // Check if the deadline is earlier than the current time
-        if (deadline.getTime() < this.currentDate.getTime()) {
-          setTimeout(() => {
-            this.commonService.deleteTodo(todo.id); // Delete the item
-          }, 3000);
-          this.toast.warning({detail:"Ouups",summary:'Task failed',duration:3000, position:'topCenter'});
-        }
+          console.log(deadline);
+          console.log("currentDate");
+          console.log(this.currentDate);
 
-     })
 
-  })
+          // Check if the deadline is earlier than the current time
+          if (deadline.getTime() < this.currentDate.getTime()) {
+            setTimeout(() => {
+              this.commonService.deleteTodo(todo.id); // Delete the item
+            }, 3000);
+            this.toast.warning({detail:"Ouups",summary:'Task failed',duration:3000, position:'topCenter'});
+          }
+        });
+      }, 60000); // Check every minute
+    });
+
 }
 
 
   onClick(noteInput: HTMLInputElement , deadlineInput: HTMLInputElement){
     if (noteInput.value) {
       const time = deadlineInput.value;
-      console.log(time);
+
        const timeParts = time.split(':');
       const hours = parseInt(timeParts[0], 10);
       const minutes = parseInt(timeParts[1], 10);
       const deadline = new Date();
       deadline.setHours(hours+2);
       deadline.setMinutes(minutes);
-      console.log("hada deadline");
+      /* console.log("hada deadline");
       console.log(typeof deadline);
       console.log(deadline.getTime());
 
       console.log("hada lcurrent date");
       console.log(typeof this.currentDate);
       console.log(this.currentDate.getTime());
+ */
 
 
-      console.log("the normal date");
        // in the database DATE IS NORMAL
 
 
@@ -106,6 +112,23 @@ export class TodoComponent implements OnInit {
   updateTodoItemchange(newNote: string, id: string) {
     this.commonService.updateTodoItem(id,newNote)
   }
+ /*  checkAndDeleteExpiredTasks(): void {
+    this.todos.forEach((todo: any) => {
+      const deadline = new Date(todo.deadline);
+      console.log("deadline");
 
+      console.log(deadline);
+      console.log("currentDate");
+      console.log(this.currentDate);
+
+
+      // Check if the deadline is earlier than the current time
+      if (deadline.getTime() < this.currentDate.getTime()) {
+        this.commonService.deleteTodo(todo.id); // Delete the item
+        this.toast.warning({ detail: "Ouups", summary: "Task failed", duration: 3000, position: "topCenter" });
+      }
+    });
+
+} */
 
 }
