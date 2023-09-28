@@ -1,19 +1,34 @@
-<div class="flex clock">
-  <input placeholder="set a deadline"
-  aria-label="24hr format"
-  [ngxTimepicker]="fullTime"
-  [format]="24"
-  readonly
-  class="py-3 outline-none px-4 block w-full border-gray-400 shadow-xl rounded-l-md text-md" />
+<div class="flex rounded-md pb-3">
+  <input
+    #noteInput
+    placeholder="New Note"
+    type="text"
+    id="hs-trailing-button-add-on"
+    name="hs-trailing-button-add-on"
+    class="py-3 outline-none px-4 block w-full border-gray-400 shadow-xl rounded-l-md text-md"
+  />
+  <div class="flex clock">
+    <input placeholder="set a deadline"
+    min="{{currentTime}}"
+    max="11:59 pm"
+    #deadlineInput
+    aria-label="24hr format"
+    [ngxTimepicker]="range"
+    [format]="24"
+    readonly
+    class="py-3 outline-none px-4 block w-full border-gray-400 shadow-xl rounded-l-md text-md" />
+                  <ngx-material-timepicker
+                    [appendToInput]="true"
+                    [disableAnimation]="true"
+                    #range
+                  ></ngx-material-timepicker>
+  </div>
+
   <button
-  type="button"
-  class="py-3 px-4 inline-flex flex-shrink-0 justify-center items-center gap-2 rounded-r-md font-semibold text-[#dd4f39] text-md shadow-xl"
->
-  <i class="fa-solid fa-plus fa-xl"></i>
-</button>
-                <ngx-material-timepicker
-                  [appendToInput]="true"
-                  [disableAnimation]="true"
-                  #fullTime
-                ></ngx-material-timepicker>
+    (click)="onClick(noteInput,deadlineInput)"
+    type="button"
+    class="py-3 px-4 inline-flex flex-shrink-0 justify-center items-center gap-2 rounded-r-md font-semibold text-[#dd4f39] text-md shadow-xl"
+  >
+    <i class="fa-solid fa-plus fa-xl"></i>
+  </button>
 </div>

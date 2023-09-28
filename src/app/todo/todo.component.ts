@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonService } from '../shared/common.service';
 import { NgToastService } from 'ng-angular-popup';
-import {formatDate} from '@angular/common'
 
 @Component({
   selector: 'app-todo',
@@ -11,23 +10,24 @@ import {formatDate} from '@angular/common'
 })
 export class TodoComponent implements OnInit {
   todos: any[]=[];
+  isEditMode = false;
+  editedTaskId: string ='';
+  editedTaskContent: string = '';
   deleteItem = false;
-  showComponent = false;
   selectedTime: string = '';
+
+
   /* currentDate = formatDate(new Date(),'HH:mm','en_US'); */
   currentDate = new Date();
   currentHours = this.currentDate.getHours();
   currentMinutes = this.currentDate.getMinutes();
-
-
-  currentTime = `${this.currentHours}:${this.currentMinutes < 10 ? '0' : ''}${this.currentMinutes}`; 
-
-
-
+  currentTime = `${this.currentHours}:${this.currentMinutes < 10 ? '0' : ''}${this.currentMinutes}`;
 
   constructor(private commonService: CommonService, private toast: NgToastService) {
 
   }
+
+
   ngOnInit(): void {
      this.commonService.firestoreCollection.valueChanges({idField: 'id'}).subscribe(item=>{
        this.todos = item.sort((a:any, b:any) =>
@@ -42,7 +42,6 @@ export class TodoComponent implements OnInit {
           console.log("currentDate");
           console.log(this.currentDate);
 
-
           // Check if the deadline is earlier than the current time
           if (deadline.getTime() < this.currentDate.getTime()) {
             setTimeout(() => {
@@ -56,37 +55,30 @@ export class TodoComponent implements OnInit {
 
 }
 
-
-  onClick(noteInput: HTMLInputElement , deadlineInput: HTMLInputElement){
-    if (noteInput.value) {
-      const time = deadlineInput.value;
-
-       const timeParts = time.split(':');
-      const hours = parseInt(timeParts[0], 10);
-      const minutes = parseInt(timeParts[1], 10);
-      const deadline = new Date();
-      deadline.setHours(hours+2);
-      deadline.setMinutes(minutes);
-      /* console.log("hada deadline");
-      console.log(typeof deadline);
-      console.log(deadline.getTime());
-
-      console.log("hada lcurrent date");
-      console.log(typeof this.currentDate);
-      console.log(this.currentDate.getTime());
- */
-
-
-       // in the database DATE IS NORMAL
-
-
-      this.commonService.addTodo(noteInput.value, deadline);
-
-      noteInput.value="";
-      deadlineInput.value = "";
-    }
+editTask(taskId: string) {
+  // Find the task by ID and enter edit mode
+  const task = this.todos.find((t) => t.id === taskId);
+  if (task) {
+    this.isEditMode = true;
+    this.editedTaskId = taskId;
+    this.editedTaskContent = task.note;
+  }
+}
+updateTaskContent(newContent: string) {
+  // Update task content in Firestore and exit edit mode
+  if (this.editedTaskId) {
+    this.commonService.updateTodoContent(this.editedTaskId, newContent);
+    this.isEditMode = false;
+    /* this.editedTaskId = null;  */
+    this.editedTaskContent = '';
   }
 
+}
+cancelEditTask() {
+  // Exit edit mode without saving changes
+  this.isEditMode = false;
+  this.editedTaskContent = '';
+}
 
   onStatusChange(id:string, newStatus:boolean){
     this.commonService.updateTodoStatus(id,newStatus)
@@ -106,29 +98,5 @@ export class TodoComponent implements OnInit {
     this.commonService.deleteTodo(id)
   }
 
-  toggleComponent(){
-    this.showComponent = !this.showComponent;
-  }
-  updateTodoItemchange(newNote: string, id: string) {
-    this.commonService.updateTodoItem(id,newNote)
-  }
- /*  checkAndDeleteExpiredTasks(): void {
-    this.todos.forEach((todo: any) => {
-      const deadline = new Date(todo.deadline);
-      console.log("deadline");
-
-      console.log(deadline);
-      console.log("currentDate");
-      console.log(this.currentDate);
-
-
-      // Check if the deadline is earlier than the current time
-      if (deadline.getTime() < this.currentDate.getTime()) {
-        this.commonService.deleteTodo(todo.id); // Delete the item
-        this.toast.warning({ detail: "Ouups", summary: "Task failed", duration: 3000, position: "topCenter" });
-      }
-    });
-
-} */
 
 }

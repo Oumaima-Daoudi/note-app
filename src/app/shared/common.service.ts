@@ -27,6 +27,10 @@ export class CommonService implements OnInit {
      this.firestoreCollection.doc(id).update({isDone:newStatus})
   }
 
+  updateTodoContent(id:string, content:string){
+    this.firestoreCollection.doc(id).update({note:content})
+  }
+
   deleteTodo(id:string){
     this.firestoreCollection.doc(id).delete()
   }
